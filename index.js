@@ -33,16 +33,11 @@ class LoggerFactory {
     }
 
     shouldLog(name, level) {
-        if (this.config.default != null) {
-            if (this.config.default.level.order <= level.order) {
-                return true;
-            }
-        }
         var loggerConfig = this.config[name];
         if (loggerConfig != null) {
-            if (loggerConfig.level.order <= level.order) {
-                return true;
-            }
+            return loggerConfig.level.order <= level.order;
+        } else if (this.config.default != null) {
+            return this.config.default.level.order <= level.order;
         }
         return false;
     }
